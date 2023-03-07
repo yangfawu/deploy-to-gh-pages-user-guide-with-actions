@@ -1,25 +1,27 @@
-import { createContext, ReactNode, useCallback, useContext, useEffect, useMemo, useState } from "react"
+import { createContext, ReactNode, useContext, useEffect, useMemo, useState } from "react"
 
 const Context = createContext({
     value: {
         parsed: "",
         raw: ""
     },
-    update: (val: string) => { return "" as any }
+    update: (val: string) => {
+        return "" as any
+    }
 })
 
-const STORAGE_KEY = "RepositoryProvider::repo"
+const STORAGE_KEY = "RepositoryProvider::username"
 type Props = {
     children?: ReactNode
 }
-export default function RepositoryProvider({ children }: Props) {
+export default function GithubProvider({ children }: Props) {
     const [name, setName] = useState(localStorage.getItem(STORAGE_KEY) ?? "")
 
     useEffect(() => {
         window.localStorage.setItem(STORAGE_KEY, name)
     }, [name])
 
-    const parsed = useMemo(() => name || "[YOUR REPOSITORY NAME]", [name])
+    const parsed = useMemo(() => name || "[YOUR GITHUB NAME]", [name])
 
     const update = useMemo(() => (val: string) => setName(val), [setName])
 
@@ -37,4 +39,4 @@ export default function RepositoryProvider({ children }: Props) {
     )
 }
 
-export const useRepo = () => useContext(Context)
+export const useGithub = () => useContext(Context)

@@ -1,23 +1,21 @@
+import { HashRouter, Route, Routes } from "react-router-dom"
 import RootLayout from "./layouts/RootLayout"
-import Introduction from "./content/Introduction"
-import Header from "./content/Header"
-import MainLayout from "./layouts/MainLayout"
-import CreatingProject from "./content/CreatingProject"
-import Footer from "./content/Footer"
-import SettingUpConfigs from "./content/SettingUpConfigs"
-import Deploying from "./content/Deploying"
+import { lazy } from "react"
+
+const Home = lazy(() => import("./pages/Home"))
+const Second = lazy(() => import("./pages/Second"))
+const NotFound = lazy(() => import("./pages/NotFound"))
 
 export default function App() {
     return (
-        <RootLayout>
-            <Header/>
-            <MainLayout>
-                <Introduction/>
-                <CreatingProject/>
-                <SettingUpConfigs/>
-                <Deploying/>
-                <Footer/>
-            </MainLayout>
-        </RootLayout>
+        <HashRouter basename="/">
+            <Routes>
+                <Route path="/" element={<RootLayout/>}>
+                    <Route path="" element={<Home/>}/>
+                    <Route path="second-page" element={<Second/>}/>
+                    <Route path="*" element={<NotFound/>}/>
+                </Route>
+            </Routes>
+        </HashRouter>
     )
 }

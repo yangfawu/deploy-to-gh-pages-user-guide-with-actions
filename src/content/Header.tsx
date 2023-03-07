@@ -5,13 +5,13 @@ export default function Header() {
     return (
         <Stack spacing="16px">
             <Typography variant="h2" marginTop="25%">
-                User Guide: Deploying React app to Github Pages using Github Actions
+                User Guide: Deploying React app to GitHub Pages using GitHub Actions
             </Typography>
             <Box display="flex" gap="8px" flexWrap="wrap">
                 <Chip icon={<AccessTime/>} label="10 min read" variant="outlined"/>
                 <Chip label="React"/>
-                <Chip label="Github Pages"/>
-                <Chip label="Github Actions"/>
+                <Chip label="GitHub Pages"/>
+                <Chip label="GitHub Actions"/>
                 <Chip label="Deployment"/>
             </Box>
             <Breadcrumbs separator={`\u2022`} sx={{ marginTop: "25%" }}>

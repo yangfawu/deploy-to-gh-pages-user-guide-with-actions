@@ -2,10 +2,13 @@ import Section from "../components/Section"
 import { Alert, Link, Typography } from "@mui/material"
 import CodeBlock from "../components/CodeBlock"
 import Code from "../components/Code"
-import { useRepo } from "../context/RepositoryContext"
+import { useRepo } from "../context/RepositoryProvider"
 import { javascript } from "@codemirror/lang-javascript"
 import Image from "../components/Image"
 import githubActionSettings from "../assets/github-action-settings.png"
+import githubActionWorkflow from "../assets/github-action-settings-2.png"
+import { useGithub } from "../context/GithubProvider"
+import { useMemo } from "react"
 
 const fileStructure = `
 | public/
@@ -73,7 +76,12 @@ jobs:
 `
 
 export default function SettingUpConfigs() {
-    const { value: { parsed } } = useRepo()
+    const { value: { parsed: parsedRepoName } } = useRepo()
+    const { value: { parsed: parsedGithubName } } = useGithub()
+
+    const rootGithubURL = useMemo(() => `https://${parsedGithubName}.github.io/`, [parsedGithubName])
+    const appGithubURL = useMemo(() => `${rootGithubURL}${parsedRepoName}/`, [rootGithubURL, parsedRepoName])
+
     return (
         <Section title="Setting Up Configs">
             <Typography>
@@ -81,24 +89,28 @@ export default function SettingUpConfigs() {
             </Typography>
             <CodeBlock disableCopy value={fileStructure}/>
             <Typography>
-                In your <Code>vite.config.ts</Code> file, add a new field <Code>base</Code> to tell Vite that your project will be built at this base url <Code>/{parsed}/</Code>. On default, Vite will build your React app to be served from the root URL <Code>https://[YOUR GITHUB USERNAME].github.io/</Code>. However, due to the way how Github Pages work, we want to deploy our app at <Code>https://[YOUR GITHUB USERNAME].github.io/{parsed}/</Code> instead.
+                In your <Code>vite.config.ts</Code> file, add a new field <Code>base</Code> to tell Vite that your project will be built at this base URL <Code>/{parsedRepoName}/</Code>. By default, Vite will build your React app to be served from the root URL <Code><Link href={rootGithubURL} target="_blank">{rootGithubURL}</Link></Code>. However, due to the way how GitHub Pages work, we want to deploy our app at <Code><Link href={appGithubURL} target="_blank">{appGithubURL}</Link></Code> instead.
             </Typography>
-            <CodeBlock value={viteConfig(parsed)} extensions={[javascript({ typescript: true })]}/>
+            <CodeBlock value={viteConfig(parsedRepoName)} extensions={[javascript({ typescript: true })]}/>
             <Typography>
-                In your root project directory, create a new file at <Code>.github/workflows/main.yml</Code>. Your project directory should now look something this:
+                In your root project directory, create a new file at <Code>.github/workflows/main.yml</Code>. Your project directory should now look something like this:
             </Typography>
             <CodeBlock disableCopy value={fileStructureAfterGithub}/>
             <Typography>
-                Next, inside your newly created <Code>main.yml</Code> file, paste in the following script. This is where the magic happens. Everytime you push a commit to the <Code>main</Code> branch, Github will automatically build your project and copy the contents of the built app into the <Code>gh-pages</Code> branch. (The <Code>gh-pages</Code> branch is where Github will serve statically for Github Pages.)
+                Next, inside your newly created <Code>main.yml</Code> file, paste in the following script. This is where the magic happens. Every time you push a commit to the <Code>main</Code> branch, GitHub will automatically build your project and copy the contents of the built app into the <Code>gh-pages</Code> branch. (The <Code>gh-pages</Code> branch is where GitHub will serve statically for GitHub Pages.)
             </Typography>
             <CodeBlock value={githubMainYml}/>
             <Alert severity="info">
                 If you are not using Vite, the project build command may not be <Code>npm run build</Code>. You can check by looking at your npm scripts in <Code>package.json</Code>. Additionally, the output directory of your built app may not be <Code>./dist</Code> like Vite. Make the necessary changes to <Code>main.yml</Code> to support your build tool.
             </Alert>
             <Typography>
-                Once you have that set up, navigate to the <b>Settings</b> page of your repository on Github and look for the <b>Actions</b> tab in the sidebar. At the very top of the page, you should be able to see the permissions for Actions. For this user guide, you need to select the first option <Code>Allow all actions and reusable workflows</Code>. However, you can also opt for the fourth option if your project will be open-sourced to prevent malicious actions. We need this enabled because our <Code>main.yml</Code> is using a public Github Action (<Code><Link href="https://github.com/peaceiris/actions-gh-pages" target="_blank">peaceiris/actions-gh-pages@v3</Link></Code>) to help us deploy.
+                Once you have that setup, navigate to the <b>Settings</b> page of your repository on GitHub and look for the <b>Actions</b> tab in the sidebar. At the very top of the page, you should be able to see the Actions permissions. For this user guide, you need to select the first option <Code>Allow all actions and reusable workflows</Code>. However, you can also opt for the fourth option if your project will be open-sourced to prevent malicious actions. We need this enabled because our <Code>main.yml</Code> is using a public GitHub Action (<Code><Link href="https://github.com/peaceiris/actions-gh-pages" target="_blank">peaceiris/actions-gh-pages@v3</Link></Code>) to help us deploy.
             </Typography>
-            <Image src={githubActionSettings} alt="github-action-settings"/>
+            <Image src={githubActionSettings} alt="github-action-permissions"/>
+            <Typography>
+                While you are still on that page, scroll down a bit and you should see the Workflow permissions. You need to select <Code>Read and write permissions</Code>. GitHub needs those permissions to read from your <Code>main</Code> branch and push the built app into <Code>gh-pages</Code> branch for you.
+            </Typography>
+            <Image src={githubActionWorkflow} alt="github-action-workflow"/>
         </Section>
     )
 }
