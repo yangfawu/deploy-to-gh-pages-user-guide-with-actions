@@ -1,1 +1,0 @@
-import{j as r}from"./index-9919c4e8.js";function i({children:o}){return r.jsx("code",{style:{display:"inline-block",padding:"0 5px",color:"#1A2027",backgroundColor:"rgba(102, 178, 255, 0.15)",borderRadius:"5px",fontSize:"0.8125rem",direction:"ltr"},children:o})}export{i as C};

@@ -1,1 +1,0 @@
-import{j as o,I as r,L as t}from"./index-9919c4e8.js";import{S as n,L as e}from"./Section-2c945158.js";function a(){return o.jsx(n,{title:"Error 404: Page Not Found",children:o.jsxs(r,{children:["Click ",o.jsx(e,{component:t,to:"/",children:"here"})," to go back."]})})}export{a as default};
