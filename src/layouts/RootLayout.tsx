@@ -3,6 +3,7 @@ import Progress from "../components/Progress"
 import { Outlet } from "react-router-dom"
 import { Suspense } from "react"
 import Header from "../content/Header"
+import Footer from "../content/Footer"
 
 export default function RootLayout()
 {
@@ -24,10 +25,12 @@ export default function RootLayout()
                     backgroundColor: "#eee",
                     minHeight: "calc(100vh - 10px)",
                     padding: "32px",
+                    paddingX: 0,
                     boxSizing: "border-box",
                 }}>
                     <Header/>
                     <Outlet/>
+                    <Footer/>
                 </Stack>
             </Suspense>
         </Box>

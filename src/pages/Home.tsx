@@ -4,7 +4,6 @@ import SettingUpConfigs from "../content/SettingUpConfigs"
 import Deploying from "../content/Deploying"
 import Conclusion from "../content/Conclusion"
 import ExtraRouting from "../content/ExtraRouting"
-import Footer from "../content/Footer"
 import RepositoryProvider from "../context/RepositoryProvider"
 import { Stack } from "@mui/material"
 import GithubProvider from "../context/GithubProvider"
@@ -20,7 +19,6 @@ export default function Home() {
                     <Deploying/>
                     <ExtraRouting/>
                     <Conclusion/>
-                    <Footer/>
                 </Stack>
             </RepositoryProvider>
         </GithubProvider>
