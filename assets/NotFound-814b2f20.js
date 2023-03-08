@@ -1,0 +1,1 @@
+import{j as o,L as r,K as t}from"./index-7c0f34d1.js";import{S as n,P as e}from"./Paragraph-b716a205.js";function s(){return o.jsx(n,{title:"Error 404: Page Not Found",children:o.jsxs(e,{children:["Click ",o.jsx(r,{component:t,to:"/",children:"here"})," to go back."]})})}export{s as default};

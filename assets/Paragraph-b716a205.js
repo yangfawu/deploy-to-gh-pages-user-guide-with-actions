@@ -1,0 +1,1 @@
+import{j as r,I as t,S as s,M as n}from"./index-7c0f34d1.js";function c({title:a,children:i}){return r.jsxs(t,{spacing:"16px",children:[r.jsx(s,{children:r.jsx(n,{variant:"h4",children:a})}),i]})}function x({children:a}){return r.jsx(s,{children:r.jsx(n,{children:a})})}export{x as P,c as S};
